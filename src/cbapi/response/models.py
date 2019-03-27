@@ -1009,6 +1009,26 @@ class User(MutableBaseModel, CreatableModelMixin):
         self.teams = new_teams
 
 
+class WhitelistedIPs(MutableBaseModel):
+    swagger_meta_file = "response/models/whitelist.yaml"
+    urlobject = '/api/whitelist/entries'
+
+    @classmethod
+    def __query_implementation(cls,cb):
+        return SimpleQuery(cls,cb)
+
+    def __init__(self, *args, **kwargs):
+        super(WhitelistedIPs, self).__init__(*args, **kwargs)
+
+    def add_ip(self,ip):
+        #add the ip from the whitelist
+        self.ips.append(ip)
+
+    def remove_ip(self,ip=None,id=None):
+        #remove ip from whitelist by id or ip
+        self.removeips.append(ip if ip is not None else id)
+        self._dirty_attributes.update({'ips'})
+
 class Watchlist(MutableBaseModel, CreatableModelMixin):
     swagger_meta_file = "response/models/watchlist-new.yaml"
     urlobject = '/api/v1/watchlist'
