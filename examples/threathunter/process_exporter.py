@@ -43,7 +43,7 @@ def main():
         if args.of == "json":
             with open(args.f, 'w') as outfile:
                 for p in processes:
-                    json.dump(p.original_document, outfile)
+                    json.dump(p.original_document, outfile, indent = 4)
         else:
             with open(args.f, 'w') as outfile:
                 csvwriter = csv.writer(outfile)
